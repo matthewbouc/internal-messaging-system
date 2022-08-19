@@ -1,21 +1,62 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-13}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
-      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "8080:80"
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
+      - "./apps/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./apps/server:/application"
+    depends_on:
+      - server
+      - postgres
+
+  server:
+    build:
+      context: ./apps/server
+      dockerfile: ./Dockerfile.dev
+    container_name: server-php
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./apps/server:/application"
+    environment:
+      XDEBUG_CONFIG: "remote_host=host.docker.internal"
+      LOG_LEVEL: 'debug'
+      APP_ENV: ${APP_ENV}
+      DATABASE_URL: ${DATABASE_URL}
+
+  ###> doctrine/doctrine-bundle ###
+  postgres:
+    image: postgres
+    container_name: internal-messaging-db-data
+    environment:
+      POSTGRES_DB: internal-messaging
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: testing123
+      POSTGRES_USER: symfony
+    ports:
+      - "5433:5432"
+    volumes:
+      - internal-messaging-db-data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
+  client:
+    build:
+      context: ./apps/client
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./apps/client:/application"
+
 
 volumes:
 ###> doctrine/doctrine-bundle ###
-  db-data:
+  internal-messaging-db-data:
 ###< doctrine/doctrine-bundle ###

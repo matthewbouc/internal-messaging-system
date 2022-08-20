@@ -27,8 +27,8 @@ services:
     environment:
       XDEBUG_CONFIG: "remote_host=host.docker.internal"
       LOG_LEVEL: 'debug'
-      APP_ENV: ${APP_ENV}
-      DATABASE_URL: ${DATABASE_URL}
+      APP_ENV: 'dev'
+      DATABASE_URL: 'postgresql://symfony:testing123@postgres:5432/internal-messaging?serverVersion=13&charset=utf8'
 
   ###> doctrine/doctrine-bundle ###
   postgres:

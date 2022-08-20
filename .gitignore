@@ -14,11 +14,4 @@ apps/server/phpunit.xml
 apps/server/.phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###> symfony/phpunit-bridge ###
-apps/server/phpunit.result.cache
-apps/server/phpunit.xml
-###< symfony/phpunit-bridge ###
-
-apps/server/composer.lock
-
 .idea/

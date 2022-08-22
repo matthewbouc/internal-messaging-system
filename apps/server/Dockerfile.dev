@@ -34,4 +34,4 @@ ENV SHELL_VERBOSITY 3
 
 EXPOSE 8000
 
-CMD ["symfony", "serve", "--no-tls"]
+CMD ["symfony", "serve", "--no-tls", "--port=8000"]

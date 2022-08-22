@@ -10,6 +10,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class Controller extends AbstractController
 {
     #[Route('/')]
+    public function returnText(): Response {
+        return $this->json(['success' => true]);
+    }
+
     #[Route('/health')]
     public function health(): Response {
         return new Response();

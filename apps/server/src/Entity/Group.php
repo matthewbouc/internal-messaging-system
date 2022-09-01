@@ -26,10 +26,10 @@ class Group
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $created_by = null;
+    private ?User $updated_by = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $updated_at = null;
 
     public function getId(): ?int
     {
@@ -72,26 +72,26 @@ class Group
         return $this;
     }
 
-    public function getCreatedBy(): ?User
+    public function getUpdatedBy(): ?User
     {
-        return $this->created_by;
+        return $this->updated_by;
     }
 
-    public function setCreatedBy(User $created_by): self
+    public function setUpdatedBy(User $updated_by): self
     {
-        $this->created_by = $created_by;
+        $this->updated_by = $updated_by;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->updated_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
     {
-        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
 
         return $this;
     }

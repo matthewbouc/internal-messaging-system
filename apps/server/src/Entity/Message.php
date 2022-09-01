@@ -20,7 +20,7 @@ class Message
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author = null;
+    private ?User $user_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $message_status = null;
@@ -55,14 +55,14 @@ class Message
         return $this;
     }
 
-    public function getAuthor(): ?User
+    public function getUserId(): ?User
     {
-        return $this->author;
+        return $this->user_id;
     }
 
-    public function setAuthor(User $author): self
+    public function setUserId(User $user_id): self
     {
-        $this->author = $author;
+        $this->user_id = $user_id;
 
         return $this;
     }

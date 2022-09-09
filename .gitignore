@@ -15,5 +15,3 @@ server/.phpunit.result.cache
 ###< phpunit/phpunit ###
 
 .idea/
-/server/var/
-/server/vendor/

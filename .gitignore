@@ -4,14 +4,16 @@
 .env.local.php
 .env.*.local
 config/secrets/prod/prod.decrypt.private.php
-public/bundles/
-var/
-vendor/
+server/public/bundles/
+server/var
+server/vendor/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
-phpunit.xml
-.phpunit.result.cache
+server/phpunit.xml
+server/.phpunit.result.cache
 ###< phpunit/phpunit ###
 
 .idea/
+/server/var/
+/server/vendor/

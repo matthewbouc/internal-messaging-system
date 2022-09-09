@@ -14,7 +14,7 @@ services:
 #      - "4000:80"
 #      - "9000:443"
 #    volumes:
-#      - "./apps/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+#      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
 #    depends_on:
 #      - server
 #    networks:
@@ -28,12 +28,14 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "./apps/server:/application"
+      - "./server:/application"
     environment:
       XDEBUG_CONFIG: "remote_host=host.docker.internal"
+      PHP_IDE_CONFIG: "serverName=server"
       LOG_LEVEL: 'debug'
       APP_ENV: 'dev'
       DATABASE_URL: 'postgresql://symfony:testing123@postgres:5432/internal-messaging?serverVersion=13&charset=utf8'
+
     networks:
       - team-chat-network
 
@@ -60,7 +62,7 @@ services:
       context: app
       dockerfile: ./Dockerfile.dev
     volumes:
-      - './apps/app:/applications'
+      - './app:/applications'
     ports:
       - '3000:3000'
     networks:

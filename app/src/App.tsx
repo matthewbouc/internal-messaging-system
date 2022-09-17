@@ -4,6 +4,8 @@ import './App.css';
 import {Button} from "@mui/material";
 import axios from "axios";
 
+import Test from './components/Test';
+
 function App() {
   useEffect(() => {
     axios.get('http://localhost:8000/log/success')
@@ -29,6 +31,9 @@ function App() {
         <Button>
           Learn React
         </Button>
+        <Test name="Matt" age={22} color="#000" >
+            <h1>"hello"</h1>
+        </Test>
       </header>
     </div>
   );

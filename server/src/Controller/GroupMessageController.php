@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class GroupMessageController extends AbstractController
 {
 
-    private string $primaryColor = '#fff';
-    private string $secondaryColor = '#fff';
+    private string $primaryColor = "#ACC8AB";
+    private string $secondaryColor = "#4B6F44";
 
 //    #[Route('/api/teamChatGroupMessage/{userId}')]
 //    public function returnGroupMessages(string $userId): Response {

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class GroupMessageController extends AbstractController
+class UserSettingsController extends AbstractController
 {
 
     private string $primaryColor = "#ACC8AB";
@@ -39,19 +39,4 @@ class GroupMessageController extends AbstractController
         return $this->returnUserSettings();
     }
 
-
-    #[Route('/health')]
-    public function health(): Response {
-        return new Response();
-    }
-
-    #[Route('/log/{name}')]
-    public function log(string $name, LoggerInterface $logger): Response {
-        // See these in /var/log/ of your project root
-        $logger->info("Hello, $name");
-        return $this->json([
-            'success' => true,
-            'name' => $name
-        ]);
-    }
 }

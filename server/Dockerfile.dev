@@ -3,6 +3,8 @@ USER root
 WORKDIR /application
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 COPY . .
+# If you get an error about the folder not being created, it might be under
+# /root/.symfony5
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 
 RUN apt-get update && apt-get install -y libpq-dev unzip && \
@@ -34,4 +36,4 @@ ENV SHELL_VERBOSITY 3
 
 EXPOSE 8000
 
-CMD ["symfony", "serve", "--no-tls", "--port=8000"]
+CMD ["symfony", "serve", "--no-tls"]

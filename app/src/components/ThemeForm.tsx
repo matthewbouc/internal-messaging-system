@@ -18,16 +18,10 @@ const ThemeForm = (props:Props):JSX.Element => {
     const [tempSecondary, setTempSecondary] = useState(props.secondary);
 
     useEffect(() => {
-        axios.get(SERVER)
-            .then((response) => {
-                //console.log(response);
-                props.setPrimary(response.data.color1);
-                props.setSecondary(response.data.color2);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
+        console.log('use effect triggered')
+        setTempPrimary(props.primary);
+        setTempSecondary(props.secondary);
+    }, [props.primary, props.secondary]);
 
     const onFormSubmit = () => {
         const colors = {"color1":tempPrimary, "color2":tempSecondary};
@@ -37,6 +31,7 @@ const ThemeForm = (props:Props):JSX.Element => {
             console.log(response);
             props.setPrimary(response.data.color1);
             props.setSecondary(response.data.color2);
+
         }).catch((error) => {
             console.log(error);
         });
@@ -53,11 +48,15 @@ const ThemeForm = (props:Props):JSX.Element => {
             autoComplete="off"
         >
             <TextField value={tempPrimary} onChange={(event)=> setTempPrimary(event.target.value)}/>
+            <div style={{height:"100px", width:"100px", backgroundColor:tempPrimary, borderStyle:"solid"}}></div>
             <TextField value={tempSecondary} onChange={(event) => setTempSecondary(event.target.value)} />
+            <div style={{height:"100px", width:"100px", backgroundColor:tempSecondary, borderStyle:"solid"}}></div>
 
-            <Button onClick={onFormSubmit}>
+            <Button variant="contained" onClick={onFormSubmit}>
                 In ThemeForm
             </Button>
+
+            <Button color="secondary" variant="contained">Secondary</Button>
         </Box>
     )
 }

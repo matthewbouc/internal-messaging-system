@@ -5,22 +5,35 @@ import {createTheme, ThemeProvider} from "@mui/material";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import ThemeForm from "./components/ThemeForm";
 import Home from "./components/Home";
+import axios from "axios";
 
 
 function App() {
 
-    const [primary, setPrimary] = useState("#ACC8AB");
-    const [secondary, setSecondary] = useState("#4B6F44");
+    const [primary, setPrimary] = useState("#fff");
+    const [secondary, setSecondary] = useState("#fff");
+
+    useEffect(() => {
+        axios.get("http://localhost:8000/api/userSettings")
+            .then((response) => {
+                console.log('get response, color1: ' + response.data.color1);
+                setPrimary(response.data.color1);
+                setSecondary(response.data.color2);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     const themeObject = {
         palette: {
             primary: {
                 //lighter green for primary buttons
-                main: primary || "#ACC8AB",
+                main: primary,
             },
             secondary: {
                 //darker green for nav bar or secondary buttons
-                main: secondary || "#4B6F44",
+                main: secondary,
             },
         },
     };

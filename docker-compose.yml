@@ -62,7 +62,7 @@ services:
       context: app
       dockerfile: ./Dockerfile.dev
     volumes:
-      - './app:/applications'
+      - './app:/app'
     ports:
       - '3000:3000'
     networks:

@@ -1,0 +1,1 @@
+docker build -t internal-messaging-system -f Dockerfile.dev .

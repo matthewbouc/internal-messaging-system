@@ -31,3 +31,6 @@ INSERT INTO message (id, group_id, user_id, updated_by_id, message_status, messa
                                                                                                                    (2,1,2,2,'active','Second Test Message',now(),now()),
                                                                                                                    (3,1,1,1, 'inactive','This should be invisible',now(),now()),
                                                                                                                    (4,4,1,1, 'active', 'Group1-1 Test', now(), now());
+
+
+INSERT INTO user_setting (id, user_id, theme_primary_color, theme_secondary_color) VALUES (1, 1, '#FFC0CB', '#FFA500');

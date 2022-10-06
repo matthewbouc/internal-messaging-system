@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use Psr\Log\LoggerInterface;
+use App\Repository\UserSettingRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,8 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserSettingsController extends AbstractController
 {
 
-    private string $primaryColor = "#195CAB";
-    private string $secondaryColor = "#4B6F44";
 
 //    #[Route('/api/teamChatGroupMessage/{userId}')]
 //    public function returnGroupMessages(string $userId): Response {
@@ -22,21 +21,27 @@ class UserSettingsController extends AbstractController
 //    }
 
     #[Route('/api/userSettings', methods: ['GET'])]
-    public function returnUserSettings(): Response {
+    public function returnUserSettings(UserSettingRepository $userSettingRepository): Response
+    {
+        $settings = $userSettingRepository->find(1);
+        $primary = $settings->getThemePrimaryColor();
+        $secondary = $settings->getThemeSecondaryColor();
+
         return new JsonResponse([
-            'color1' => $this->primaryColor,
-            'color2' => $this->secondaryColor,
+            'color1' => $primary,
+            'color2' => $secondary,
         ]);
     }
 
     #[Route('/api/userSettings', methods: ['POST'])]
-    public function updateUserSettings(Request $request): Response {
+    public function updateUserSettings(Request $request, UserSettingRepository $userSettingRepository, ManagerRegistry $doctrine): void
+    {
         $newTheme = json_decode($request->getContent(), true);
 
-        $this->primaryColor = $newTheme['color1'];
-        $this->secondaryColor = $newTheme['color2'];
-
-        return $this->returnUserSettings();
+        $settings = $userSettingRepository->find(1);
+        $settings->setThemePrimaryColor($newTheme['color1']);
+        $settings->setThemeSecondaryColor($newTheme['color2']);
+        $doctrine->getManager()->flush();
     }
 
 }

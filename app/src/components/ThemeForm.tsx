@@ -30,8 +30,13 @@ const ThemeForm = (props:Props):JSX.Element => {
         axios.post(SERVER, colors)
         .then((response) => {
             console.log(response);
-            props.setPrimary(response.data.color1);
-            props.setSecondary(response.data.color2);
+        }).then(() => {
+            axios.get("http://localhost:8000/api/userSettings")
+                .then((response) => {
+                    console.log('get response, color1: ' + response.data.color1);
+                    props.setPrimary(response.data.color1);
+                    props.setSecondary(response.data.color2);
+                })
         }).catch((error) => {
             console.log(error);
         });

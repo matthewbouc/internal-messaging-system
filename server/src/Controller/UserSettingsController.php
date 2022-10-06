@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserSettingsController extends AbstractController
 {
 
-    private string $primaryColor = "#ACC8AB";
+    private string $primaryColor = "#195CAB";
     private string $secondaryColor = "#4B6F44";
 
 //    #[Route('/api/teamChatGroupMessage/{userId}')]

@@ -27,11 +27,11 @@ const ThemeForm = (props:Props):JSX.Element => {
         const colors = {"color1":tempPrimary, "color2":tempSecondary};
 
         console.log(colors);
-        axios.post(SERVER, colors).then((response) => {
+        axios.post(SERVER, colors)
+        .then((response) => {
             console.log(response);
             props.setPrimary(response.data.color1);
             props.setSecondary(response.data.color2);
-
         }).catch((error) => {
             console.log(error);
         });

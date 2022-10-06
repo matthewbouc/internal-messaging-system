@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
+import axios from "axios";
 import {createTheme, ThemeProvider} from "@mui/material";
-
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+
+import './App.css';
 import ThemeForm from "./components/ThemeForm";
 import Home from "./components/Home";
-import axios from "axios";
+import NavigationBar from "./components/NavigationBar";
+import TeamChat from "./components/TeamChat";
 
 
 function App() {
@@ -44,8 +46,10 @@ function App() {
     return (
       <ThemeProvider theme={themeConfig}>
           <BrowserRouter>
+              <NavigationBar />
               <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/teamchat" element={<TeamChat />} />
                   <Route path="/form" element={<ThemeForm setSecondary={setSecondary} secondary={secondary} setPrimary={setPrimary} primary={primary} />} />
               </Routes>
           </BrowserRouter>

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\CompanyRepository;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,13 +14,20 @@ class CompaniesController extends AbstractController
     #[Route('/api/companies', methods: ['POST'])]
     public function createNewCompany(): Response
     {
+
         return new JsonResponse('');
     }
 
     #[Route('/api/companies', methods: ['GET'])]
-    public function returnAllCompanies(): Response
+    public function returnAllCompanies(CompanyRepository $companyRepository): Response
     {
-        return new JsonResponse('');
+        $companiesAll = $companyRepository->findAll();
+        $coArray = [];
+        foreach($companiesAll as $company) {
+            $coArray[] = [$company->getId() => $company->getName()];
+        }
+
+        return new JsonResponse($coArray);
     }
 
     #[Route('/api/companies', methods: ['PATCH', 'PUT'])]

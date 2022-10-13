@@ -28,8 +28,8 @@ class UserSettingsController extends AbstractController
         $secondary = $settings->getThemeSecondaryColor();
 
         return new JsonResponse([
-            'color1' => $primary,
-            'color2' => $secondary,
+            'primaryColor' => $primary,
+            'secondaryColor' => $secondary,
         ]);
     }
 
@@ -39,8 +39,8 @@ class UserSettingsController extends AbstractController
         $newTheme = json_decode($request->getContent(), true);
 
         $settings = $userSettingRepository->find(1);
-        $settings->setThemePrimaryColor($newTheme['color1']);
-        $settings->setThemeSecondaryColor($newTheme['color2']);
+        $settings->setThemePrimaryColor($newTheme['primaryColor']);
+        $settings->setThemeSecondaryColor($newTheme['secondaryColor']);
         $doctrine->getManager()->flush();
     }
 

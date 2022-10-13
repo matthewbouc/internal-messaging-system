@@ -8,19 +8,21 @@ import ThemeForm from "./components/ThemeForm";
 import Home from "./components/Home";
 import NavigationBar from "./components/NavigationBar";
 import TeamChat from "./components/TeamChat";
+import {useAppDispatch, useAppSelector} from "./hooks";
+import {receivedSettings, SettingState} from "./reducers/userSettingsSlice";
 
 
 function App() {
 
-    const [primary, setPrimary] = useState("#fff");
-    const [secondary, setSecondary] = useState("#fff");
+    const theme = useAppSelector(state => state.userSettings);
+    const dispatch = useAppDispatch();
+
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/userSettings")
+        axios.get<SettingState>("http://localhost:8000/api/userSettings")
             .then((response) => {
-                console.log('get response, color1: ' + response.data.color1);
-                setPrimary(response.data.color1);
-                setSecondary(response.data.color2);
+                console.log('get response, primary: ' + response.data.primaryColor);
+                dispatch(receivedSettings(response.data));
             })
             .catch((error) => {
                 console.log(error);
@@ -31,11 +33,11 @@ function App() {
         palette: {
             primary: {
                 //lighter green for primary buttons
-                main: primary,
+                main: theme.primaryColor,
             },
             secondary: {
                 //darker green for nav bar or secondary buttons
-                main: secondary,
+                main: theme.secondaryColor,
             },
         },
     };
@@ -44,16 +46,16 @@ function App() {
     const themeConfig = createTheme(themeObject);
 
     return (
-      <ThemeProvider theme={themeConfig}>
-          <BrowserRouter>
-              <NavigationBar />
-              <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/teamchat" element={<TeamChat />} />
-                  <Route path="/form" element={<ThemeForm setSecondary={setSecondary} secondary={secondary} setPrimary={setPrimary} primary={primary} />} />
-              </Routes>
-          </BrowserRouter>
-      </ThemeProvider>
+        <ThemeProvider theme={themeConfig}>
+            <BrowserRouter>
+                <NavigationBar />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/teamchat" element={<TeamChat />} />
+                    <Route path="/form" element={<ThemeForm />} />
+                </Routes>
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
 

@@ -1,42 +1,38 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { receivedSettings, SettingState } from "../reducers/userSettingsSlice";
 
-interface Props {
-    primary: string;
-    secondary: string;
-    setSecondary: Dispatch<SetStateAction<string>>;
-    setPrimary: Dispatch<SetStateAction<string>>;
-}
 
-const ThemeForm = (props:Props):JSX.Element => {
+const ThemeForm = ():JSX.Element => {
 
     const SERVER = "http://localhost:8000/api/userSettings";
-    const [tempPrimary, setTempPrimary] = useState(props.primary);
-    const [tempSecondary, setTempSecondary] = useState(props.secondary);
+
+    const dispatch = useAppDispatch();
+    const theme = useAppSelector(state => state.userSettings)
+
+    const [tempPrimary, setTempPrimary] = useState(theme.primaryColor);
+    const [tempSecondary, setTempSecondary] = useState(theme.secondaryColor);
 
     useEffect(() => {
         console.log('use effect triggered')
-        setTempPrimary(props.primary);
-        setTempSecondary(props.secondary);
-    }, [props.primary, props.secondary]);
+    }, [theme]);
 
     const onFormSubmit = () => {
-        const colors = {"color1":tempPrimary, "color2":tempSecondary};
+        const colors = {"primaryColor":tempPrimary, "secondaryColor":tempSecondary};
 
         console.log(colors);
         axios.post(SERVER, colors)
-        .then((response) => {
-            console.log(response);
-        }).then(() => {
-            axios.get("http://localhost:8000/api/userSettings")
+            .then((response) => {
+                console.log(response);
+            }).then(() => {
+                axios.get<SettingState>("http://localhost:8000/api/userSettings")
                 .then((response) => {
-                    console.log('get response, color1: ' + response.data.color1);
-                    props.setPrimary(response.data.color1);
-                    props.setSecondary(response.data.color2);
-                })
+                    dispatch(receivedSettings(response.data));
+            })
         }).catch((error) => {
             console.log(error);
         });

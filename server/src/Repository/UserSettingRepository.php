@@ -51,7 +51,7 @@ class UserSettingRepository extends ServiceEntityRepository
 //            ->orderBy('u.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
-//            ->getResult()
+//            ->getScalarResult()
 //        ;
 //    }
 

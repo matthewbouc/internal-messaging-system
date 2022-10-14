@@ -12,13 +12,13 @@ class GroupsController extends AbstractController
     #[Route('/api/groups', methods: ['POST'])]
     public function createNewGroup(): Response
     {
-        return new JsonResponse('');
+        return $this->json('');
     }
 
     #[Route('/api/groups', methods: ['GET'])]
     public function returnAllGroups(): Response
     {
-        return new JsonResponse('');
+        return $this->json('');
     }
 
     #[Route('/api/groups', methods: ['PATCH', 'PUT'])]

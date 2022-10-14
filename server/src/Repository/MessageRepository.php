@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Group;
 use App\Entity\Message;
+use App\Entity\User;
 use App\Entity\UserGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,14 +47,50 @@ class MessageRepository extends ServiceEntityRepository
 //     */
     public function getAllMessagesForUser($userId): array
     {
-        return $this->createQueryBuilder('m')
-            ->select('m', 'ug')
-            ->join(UserGroup::class, 'ug', 'WITH', 'ug.group = m.group')
-            ->where('ug.user = :userId')
-            ->setParameter('userId', $userId)
-            ->getQuery()
-            ->getResult()
-        ;
+        /**
+         * This is skirting the point of Repository.  Service logic should be doing all the dirty
+         * work.  We want to pull all groups with a service call, then loop through and pull all
+         * messages.  Then collect all necessary information, bundle into a cool DTO and ship that
+         * baddie off.
+         */
+
+
+//        $returnBody = [];
+//
+//        $allGroups = $this->getEntityManager()->createQueryBuilder()
+//                        ->select('ug','g')
+//                        ->from(UserGroup::class, 'ug')
+//                        ->join(Group::class, 'g', 'WITH', 'g.id = ug.group')
+//                        ->where('ug.user = :userId')
+//                        ->setParameter('userId', $userId)
+//                        ->getQuery()
+//                        ->getScalarResult();
+//        return $allGroups;
+//
+//        foreach ($allGroups as $id => $value){
+//            $groupMessages = $this->getEntityManager()->createQueryBuilder()
+//                                ->select('m')
+//                                ->from(Message::class, 'm')
+//                                ->where('m.group = :singleGroup')
+//                                ->setParameter('singleGroup', $value)
+//                                ->getQuery()
+//                                ->getScalarResult();
+//
+//            $returnBody[] = [ 'id' => $value, 'messages' => $groupMessages];
+//        }
+//
+//        return $returnBody;
+
+//        return $this->getEntityManager()->createQueryBuilder()
+//            ->select('g', 'ug', 'm')
+//            ->from(Message::class, 'm')
+//            ->join(Group::class, 'g', 'WITH', 'g.id = m.group')
+//            ->join(UserGroup::class, 'ug', 'WITH', 'g.id = ug.group')
+//            ->where('ug.user = :userId')
+//            ->setParameter('userId', $userId)
+//            ->getQuery()
+//            ->getScalarResult()
+//        ;
     }
 
 

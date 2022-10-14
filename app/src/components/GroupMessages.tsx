@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Accordion} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import GroupMessages from "./GroupMessages";
 
 export interface Message {
     groupId: number,
@@ -12,63 +11,51 @@ export interface Message {
     messageId: number,
 }
 
-export interface Group {
-    groupId: number,
-    groupName: string,
-    notifications: number,
-    userGroupId: number,
-}
+const GroupMessages = (): JSX.Element => {
 
-const TeamChat = (): JSX.Element => {
-
-
-
-    const groupHolder:Array<Group> = [
+    const nothingHere:Array<Message> = [
         {
             'groupId': 0,
-            'groupName': 'Test',
-            'notifications': 0,
-            'userGroupId': 0,
+            'message': 'test',
+            'createdAt': '1/1/1',
+            'status': 'active',
+            'messageId': 0,
         }
     ];
 
-
-    const [tempGroups, setTempGroups] = useState(groupHolder);
-
+    const [tempMessages, setTempMessages] = useState(nothingHere);
 
     useEffect(() => {
-
-        axios.get("http://localhost:8000/api/userGroups/1")
+        axios.get("http://localhost:8000/api/userGroupsMessages/1")
             .then((response) => {
                 console.log(response.data);
-                setTempGroups( response.data );
-                console.log('get response, tempGroups: ');
-                console.log(tempGroups);
+                setTempMessages( response.data );
+                console.log('get response, teamchat: ');
+                console.log(tempMessages);
             })
             .catch((error) => {
                 console.log(error);
             });
+
     }, []);
 
 
     return (
         <div>
-
-            {tempGroups.map((group:Group, i:number) => {
+            {tempMessages.map((message:Message, i:number) => {
                 return (
                     <Accordion key={i}>
                         <Typography>
-                            <p>Group Name: {group.groupName} </p>
-                            <GroupMessages />
+                            <p>Group Message: {message.message} </p>
                         </Typography>
                     </Accordion>
                 )
             }) }
             <div>
-                <p> TeamChat page </p>
+                <p> GroupMessages page </p>
             </div>
         </div>
     )
 };
 
-export default TeamChat;
+export default GroupMessages;

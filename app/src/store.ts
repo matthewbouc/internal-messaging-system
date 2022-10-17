@@ -13,7 +13,8 @@ export const store = configureStore({
         userSettings: userSettingsReducer,
         messages: messagesReducer,
         groups: groupsReducer,
-    }
+    },
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(groupApi.middleware, messageApi.middleware)
 });
 
 

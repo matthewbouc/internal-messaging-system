@@ -24,4 +24,12 @@ class UserGroupMessagesController extends AbstractController
         return $this->json($allMessages);
     }
 
+    #[Route('/api/groupMessages/{groupId}', methods: ['GET'])]
+    public function returnGroupMessages(GroupMessageService $groupMessageService, string $groupId): Response
+    {
+        $allMessages = $groupMessageService->getGroupMessages($groupId);
+        return $this->json(['messages'=>$allMessages]);
+    }
+
+
 }

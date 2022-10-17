@@ -50,4 +50,19 @@ class GroupMessageService
 
         return $extractedMessages;
     }
+
+    function getGroupMessages( $groupId ): array
+    {
+        $groupMessages = $this->messageRepository->findBy(['group' => $groupId], ['created_at' => 'DESC'], 10);
+        $extractedMessages = [];
+        foreach ($groupMessages as $groupMessage) {
+            $extractedMessages[] = [
+                'message' => $groupMessage->getMessage(),
+                'createdAt' => $groupMessage->getCreatedAt(),
+                'status' => $groupMessage->getMessageStatus(),
+                'messageId' => $groupMessage->getId(),
+            ];
+        }
+        return $extractedMessages;
+    }
 }

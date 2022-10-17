@@ -18,7 +18,7 @@ class UserGroupsController extends AbstractController
 
     #[Route('/api/userGroups/{userId}', methods: ['GET'])]
     public function returnNotifications(UserGroupService $userGroupService, string $userId): Response {
-        return $this->json($userGroupService->returnAllGroups($userId));
+        return $this->json(['groups'=>$userGroupService->returnAllGroups($userId)]);
     }
 
 

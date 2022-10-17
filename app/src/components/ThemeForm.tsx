@@ -12,7 +12,7 @@ const ThemeForm = ():JSX.Element => {
     const SERVER = "http://localhost:8000/api/userSettings";
 
     const dispatch = useAppDispatch();
-    const theme = useAppSelector(state => state.userSettings)
+    const theme = useAppSelector(state => state.userSettings);
 
     const [tempPrimary, setTempPrimary] = useState(theme.primaryColor);
     const [tempSecondary, setTempSecondary] = useState(theme.secondaryColor);

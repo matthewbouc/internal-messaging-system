@@ -1,71 +1,51 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
-import {Accordion} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import GroupMessages from "./GroupMessages";
+import {useAppDispatch, useAppSelector} from "../hooks";
+import {GroupObjectState, updateGroups} from "../reducers/groupSlice";
+import { useGetGroupQuery } from "../services/teamChat";
 
-export interface Message {
-    groupId: number,
-    message: string,
-    createdAt: string,
-    status: string,
-    messageId: number,
-}
-
-export interface Group {
-    groupId: number,
-    groupName: string,
-    notifications: number,
-    userGroupId: number,
-}
 
 const TeamChat = (): JSX.Element => {
 
+    const dispatch = useAppDispatch();
+    // const groups = useAppSelector(state=>state.groups);
+    const { data, isLoading, error } = useGetGroupQuery(undefined);
 
+    // const [tempGroups, setTempGroups] = useState(groupHolder);
 
-    const groupHolder:Array<Group> = [
-        {
-            'groupId': 0,
-            'groupName': 'Test',
-            'notifications': 0,
-            'userGroupId': 0,
-        }
-    ];
+    if (isLoading) return <div>Is Loading...</div>;
+    if (error) return <div> Something went wrong </div>;
 
-
-    const [tempGroups, setTempGroups] = useState(groupHolder);
-
-
-    useEffect(() => {
-
-        axios.get("http://localhost:8000/api/userGroups/1")
-            .then((response) => {
-                console.log(response.data);
-                setTempGroups( response.data );
-                console.log('get response, tempGroups: ');
-                console.log(tempGroups);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
+    // useEffect(() => {
+    //
+    //     axios.get("http://localhost:8000/api/userGroups/1")
+    //         .then((response) => {
+    //             console.log(response.data);
+    //             dispatch(updateGroups(response.data));
+    //             console.log('useEffect TeamChat response after setTempGroups: ');
+    //             console.log(groups);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+    // }, []);
 
 
     return (
         <div>
-
-            {tempGroups.map((group:Group, i:number) => {
+            {data?.groups.map((group, i:number) => {
                 return (
-                    <Accordion key={i}>
+                    <div key={i}>
                         <Typography>
-                            <p>Group Name: {group.groupName} </p>
-                            <GroupMessages />
+                            Group Name: {group.groupName}
                         </Typography>
-                    </Accordion>
+                        <GroupMessages groupId={group.groupId} />
+                    </div>
                 )
-            }) }
+            })}
             <div>
-                <p> TeamChat page </p>
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ import {useAppDispatch, useAppSelector} from "../hooks";
 import {updateMessages} from "../reducers/messageSlice";
 import { useGetMessagesQuery } from "../services/groupMessages";
 import {useGetGroupQuery} from "../services/teamChat";
+import ReplyTextBox from "./ReplyTextBox";
 
 // export interface Message {
 //     groupId: number,
@@ -64,14 +65,15 @@ const GroupMessages = (props:Props): JSX.Element => {
     if (error) return <div> Something went wrong </div>;
     return (
             <div>
-            {data?.messages.map((message, i:number) => {
-                return (
-                        <div key={i}>
-                            <Typography> {message.message} </Typography>
-                        </div>
+                {data?.messages.map((message, i:number) => {
+                    return (
+                            <div key={i}>
+                                <Typography> {message.message} </Typography>
+                            </div>
 
-                )
-            })}
+                    )
+                })}
+                <ReplyTextBox groupId={props.groupId} />
             </div>
 
     )

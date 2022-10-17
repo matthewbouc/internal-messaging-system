@@ -5,6 +5,8 @@ import GroupMessages from "./GroupMessages";
 import {useAppDispatch, useAppSelector} from "../hooks";
 import {GroupObjectState, updateGroups} from "../reducers/groupSlice";
 import { useGetGroupQuery } from "../services/teamChat";
+import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 
 const TeamChat = (): JSX.Element => {
@@ -37,12 +39,17 @@ const TeamChat = (): JSX.Element => {
         <div>
             {data?.groups.map((group, i:number) => {
                 return (
-                    <div key={i}>
-                        <Typography>
-                            Group Name: {group.groupName}
-                        </Typography>
-                        <GroupMessages groupId={group.groupId} />
-                    </div>
+                    <Accordion key={i}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            <Typography>
+                                {group.groupName}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <GroupMessages groupId={group.groupId} />
+
+                        </AccordionDetails>
+                    </Accordion>
                 )
             })}
             <div>

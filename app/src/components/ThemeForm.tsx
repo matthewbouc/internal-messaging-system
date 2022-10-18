@@ -25,7 +25,7 @@ const ThemeForm = ():JSX.Element => {
         const colors = {"primaryColor":tempPrimary, "secondaryColor":tempSecondary};
 
         console.log(colors);
-        axios.post(SERVER, colors)
+        axios.put(SERVER, colors)
             .then((response) => {
                 console.log(response);
             }).then(() => {

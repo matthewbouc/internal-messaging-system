@@ -13,13 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserSettingsController extends AbstractController
 {
 
-
-//    #[Route('/api/teamChatGroupMessage/{userId}')]
-//    public function returnGroupMessages(string $userId): Response {
-//
-//        return $this->getTeamChatGroupMessages($userId);
-//    }
-
     #[Route('/api/userSettings', methods: ['GET'])]
     public function returnUserSettings(UserSettingRepository $userSettingRepository): Response
     {
@@ -33,7 +26,7 @@ class UserSettingsController extends AbstractController
         ]);
     }
 
-    #[Route('/api/userSettings', methods: ['POST'])]
+    #[Route('/api/userSettings', methods: ['PUT'])]
     public function updateUserSettings(Request $request, UserSettingRepository $userSettingRepository, ManagerRegistry $doctrine): void
     {
         $newTheme = json_decode($request->getContent(), true);

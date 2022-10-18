@@ -1,13 +1,17 @@
 import React, {PropsWithChildren, useEffect, useState} from "react";
 import axios from "axios";
-import {Accordion} from "@mui/material";
+import {Accordion, Grid, List, ListItem } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {TestProps} from "./Test";
 import {useAppDispatch, useAppSelector} from "../hooks";
-import {updateMessages} from "../reducers/messageSlice";
+import {MessageState, updateMessages} from "../reducers/messageSlice";
 import { useGetMessagesQuery } from "../services/groupMessages";
 import {useGetGroupQuery} from "../services/teamChat";
 import ReplyTextBox from "./ReplyTextBox";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import ListItemText from '@mui/material/ListItemText';
+
 
 // export interface Message {
 //     groupId: number,
@@ -61,21 +65,53 @@ const GroupMessages = (props:Props): JSX.Element => {
     //
     // }, []);
 
+    const blueOrGreenMessage = (message:MessageState) => {
+        if (message.author === 1) {
+            return (
+                <Grid container justifyContent="flex-end">
+                <Grid item xs={12}>
+                    <ListItemText sx={{align: 'right'}}>Author ID: {message.author}</ListItemText>
+                </Grid>
+                <Grid item xs={12}>
+                    <ListItemText sx={{align: 'right'}}>{message.message}</ListItemText>
+                </Grid>
+                <Grid item xs={12}>
+                    <ListItemText sx={{align: 'right'}}>{message.createdAt}</ListItemText>
+                </Grid>
+            </Grid>
+            )
+        } else {
+            return (
+                <Grid container justifyContent="flex-start">
+                    <Container>
+                        <ListItemText >Author ID: {message.author}</ListItemText>
+                    </Container>
+                    <Container>
+                        <ListItemText >{message.message}</ListItemText>
+                    </Container>
+                    <Container>
+                        <ListItemText sx={{align: 'left'}}>{message.createdAt}</ListItemText>
+                    </Container>
+                </Grid>
+
+            )
+        }
+
+    }
+
     if (isLoading) return <div>Is Loading...</div>;
     if (error) return <div> Something went wrong </div>;
     return (
-            <div>
+            <Container>
                 {data?.messages.map((message, i:number) => {
                     return (
-                            <div key={i}>
-                                <Typography> {message.message} </Typography>
-                            </div>
-
+                            <ListItem key={i}>
+                                {blueOrGreenMessage (message)}
+                            </ListItem>
                     )
                 })}
                 <ReplyTextBox groupId={props.groupId} />
-            </div>
-
+            </Container>
     )
 };
 

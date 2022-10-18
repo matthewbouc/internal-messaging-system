@@ -6,6 +6,7 @@ export interface MessageState {
         createdAt: string | null,
         status: string | null,
         messageId: number | null,
+        author: number | null,
 }
 
 export interface MessageObjectState {
@@ -19,6 +20,7 @@ const initialState: MessageObjectState = {
             'createdAt': null,
             'status': null,
             'messageId': null,
+            'author': null,
         }]
 }
 

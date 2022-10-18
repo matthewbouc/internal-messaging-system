@@ -5,39 +5,52 @@ import Typography from "@mui/material/Typography";
 import {TestProps} from "./Test";
 import {useAppDispatch, useAppSelector} from "../hooks";
 import {updateMessages} from "../reducers/messageSlice";
-import { useGetMessagesQuery } from "../services/groupMessages";
+import {useAddMessageMutation, useGetMessagesQuery} from "../services/groupMessages";
 import {useGetGroupQuery} from "../services/teamChat";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {receivedSettings, SettingState} from "../reducers/userSettingsSlice";
 
-// export interface Message {
+// interface PostMessage {
 //     groupId: number,
+//     author: number,
 //     message: string,
-//     createdAt: string,
-//     status: string,
-//     messageId: number,
 // }
 
 export interface Props {
     groupId: number
 }
 
-
-
 const ReplyTextBox = (props:Props): JSX.Element => {
 
     const dispatch = useAppDispatch();
-    const { data, isLoading, error } = useGetMessagesQuery(props.groupId);
-
     const [ tempText, setTempText ] = useState('');
+    const SERVER = 'http://localhost:8000/api/messages';
 
-    const onFormSubmit = () => {
-        return {}
+    const [addMessage] = useAddMessageMutation();
+    const { refetch } = useGetMessagesQuery(props.groupId);
+
+
+    const onFormSubmit = async() => {
+        const message = {
+        "message": tempText,
+        "author": 1,
+        "groupId": props.groupId,
+        };
+        console.log("here is message");
+        console.log(message);
+        await addMessage(message);
+        setTempText('');
+        refetch();
+        // axios.post(SERVER, message)
+        //     .then((response) => {
+        //         console.log(response);
+        //         useGetMessagesQuery(props.groupId);
+        // }).catch((error) => {
+        //     console.log(error);
+        // });
     }
 
-    if (isLoading) return <div>Is Loading...</div>;
-    if (error) return <div> Something went wrong </div>;
     return (
         <div>
             <TextField placeholder="Put text here" multiline rows={2} value={tempText} onChange={(event) => setTempText(event.target.value)}/>

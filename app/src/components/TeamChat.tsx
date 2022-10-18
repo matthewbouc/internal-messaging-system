@@ -5,9 +5,9 @@ import GroupMessages from "./GroupMessages";
 import {useAppDispatch, useAppSelector} from "../hooks";
 import {GroupObjectState, updateGroups} from "../reducers/groupSlice";
 import { useGetGroupQuery } from "../services/teamChat";
-import {Accordion, AccordionDetails, AccordionSummary} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Grid, Paper} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import Box from "@mui/material/Box";
 
 const TeamChat = (): JSX.Element => {
 
@@ -39,15 +39,42 @@ const TeamChat = (): JSX.Element => {
         <div>
             {data?.groups.map((group, i:number) => {
                 return (
-                    <Accordion key={i}>
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography>
-                                {group.groupName}
-                            </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <GroupMessages groupId={group.groupId} />
-
+                <Accordion key={i}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography>
+                            {group.groupName}
+                        </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                    <Grid
+                        sx={{
+                        width: "100vw",
+                        height: "100vh",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"}}
+                    >
+                        <Grid sx={{
+                            width: "80vw",
+                            height: "80vh",
+                            maxWidth: "500px",
+                            maxHeight: "700px",
+                            display: "flex",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            position: "relative",
+                        }}>
+                            <Grid
+                                sx={{
+                                width: "calc( 100% - 20px )",
+                                margin: 10,
+                                overflowY: "scroll",
+                                height: "calc( 100% - 80px )"
+                            }}>
+                                <GroupMessages groupId={group.groupId} />
+                            </Grid>
+                        </Grid>
+                    </Grid>
                         </AccordionDetails>
                     </Accordion>
                 )
@@ -57,5 +84,8 @@ const TeamChat = (): JSX.Element => {
         </div>
     )
 };
+
+
+
 
 export default TeamChat;

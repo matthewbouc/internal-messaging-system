@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\GroupRepository;
+use App\Repository\MessageRepository;
+use App\Repository\UserGroupRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,10 +31,17 @@ class GroupsController extends AbstractController
         return new JsonResponse('');
     }
 
-    #[Route('/api/groups', methods: ['DELETE'])]
-    public function deleteAllGroups(): Response
+// Refactor this elsewhere.
+    #[Route('/api/groups/{userGroupId}', methods: ['DELETE'])]
+    public function deleteUserFromGroup(string $userGroupId, MessageRepository $messageRepository, UserGroupRepository $userGroupRepository, ManagerRegistry $doctrine): Response
     {
-        return new JsonResponse('');
+        $groupToRemove = $userGroupRepository->find($userGroupId);
+
+        $doctrine->getManager()->remove($groupToRemove);
+        $doctrine->getManager()->flush();
+
+        $response = new Response();
+        return $response->setStatusCode(RESPONSE::HTTP_ACCEPTED);
     }
 
 }

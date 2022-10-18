@@ -27,8 +27,7 @@ class UserGroupService
     }
     public function returnAllGroups( $userId ): array
     {
-        // Use userId to get UG_id, which then gets GroupID, which gets Messages
-//        $userGroupIds = $this->userGroup->getId();
+
         $returnUserGroups = [];
         $extractedMessages = [];
 

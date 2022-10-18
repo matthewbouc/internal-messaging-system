@@ -11,11 +11,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {receivedSettings, SettingState} from "../reducers/userSettingsSlice";
 
-// interface PostMessage {
-//     groupId: number,
-//     author: number,
-//     message: string,
-// }
 
 export interface Props {
     groupId: number
@@ -23,10 +18,7 @@ export interface Props {
 
 const ReplyTextBox = (props:Props): JSX.Element => {
 
-    const dispatch = useAppDispatch();
     const [ tempText, setTempText ] = useState('');
-    const SERVER = 'http://localhost:8000/api/messages';
-
     const [addMessage] = useAddMessageMutation();
     const { refetch } = useGetMessagesQuery(props.groupId);
 
@@ -42,13 +34,6 @@ const ReplyTextBox = (props:Props): JSX.Element => {
         await addMessage(message);
         setTempText('');
         refetch();
-        // axios.post(SERVER, message)
-        //     .then((response) => {
-        //         console.log(response);
-        //         useGetMessagesQuery(props.groupId);
-        // }).catch((error) => {
-        //     console.log(error);
-        // });
     }
 
     return (

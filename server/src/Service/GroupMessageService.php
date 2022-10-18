@@ -42,35 +42,10 @@ class GroupMessageService
         $this->userRepository = $userRepository;
         $this->doctrine = $doctrine;
     }
-    public function getAllMessagesForUser( $userId ): array
-    {
-        // Use userId to get UG_id, which then gets GroupID, which gets Messages
-//        $userGroupIds = $this->userGroup->getId();
-        $groupIds = [];
-        $extractedMessages = [];
-
-        $userGroupIds = $this->userGroupRepository->findBy(['user'=>$userId]);
-        foreach ($userGroupIds as $userGroupId){
-//            $groupIds[] = $userGroupId->getGroup()->getId();
-            $groupId = $userGroupId->getGroup()->getId();
-            $groupMessages = $this->messageRepository->findBy(['group'=>$groupId], ['created_at'=>'DESC'], 10);
-            foreach ($groupMessages as $groupMessage){
-                $extractedMessages[] =  [
-                    'groupId'=>$groupId,
-                    'message'=>$groupMessage->getMessage(),
-                    'createdAt'=>$groupMessage->getCreatedAt(),
-                    'status'=>$groupMessage->getMessageStatus(),
-                    'messageId'=>$groupMessage->getId(),
-                ];
-            }
-        }
-
-        return $extractedMessages;
-    }
 
     function getGroupMessages( $groupId ): array
     {
-        $groupMessages = $this->messageRepository->findBy(['group' => $groupId], ['created_at' => 'DESC'], 10);
+        $groupMessages = $this->messageRepository->findBy(['group' => $groupId], ['created_at' => 'DESC'], 5);
         $extractedMessages = [];
         foreach ($groupMessages as $groupMessage) {
             $extractedMessages[] = [

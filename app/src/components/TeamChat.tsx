@@ -4,36 +4,28 @@ import Typography from "@mui/material/Typography";
 import GroupMessages from "./GroupMessages";
 import {useAppDispatch, useAppSelector} from "../hooks";
 import {GroupObjectState, updateGroups} from "../reducers/groupSlice";
-import { useGetGroupQuery } from "../services/teamChat";
+import {useDeleteGroupMutation, useGetGroupQuery} from "../services/teamChat";
 import {Accordion, AccordionDetails, AccordionSummary, Grid, Paper} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { useGetMessagesQuery } from "../services/groupMessages";
 
 const TeamChat = (): JSX.Element => {
 
     const dispatch = useAppDispatch();
-    // const groups = useAppSelector(state=>state.groups);
     const { data, isLoading, error } = useGetGroupQuery(undefined);
-
-    // const [tempGroups, setTempGroups] = useState(groupHolder);
+    const [deleteGroup] = useDeleteGroupMutation();
+    const { refetch } = useGetGroupQuery(undefined);
 
     if (isLoading) return <div>Is Loading...</div>;
     if (error) return <div> Something went wrong </div>;
 
-    // useEffect(() => {
-    //
-    //     axios.get("http://localhost:8000/api/userGroups/1")
-    //         .then((response) => {
-    //             console.log(response.data);
-    //             dispatch(updateGroups(response.data));
-    //             console.log('useEffect TeamChat response after setTempGroups: ');
-    //             console.log(groups);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-    // }, []);
-
+    const deleteUserGroup = async(userGroupId:number|null) => {
+        console.log(userGroupId);
+        await deleteGroup(userGroupId);
+        refetch();
+    }
 
     return (
         <div>
@@ -44,6 +36,7 @@ const TeamChat = (): JSX.Element => {
                         <Typography>
                             {group.groupName}
                         </Typography>
+                        <Button variant="contained" onClick={() => {deleteUserGroup(group.userGroupId)}}> Delete </Button>
                     </AccordionSummary>
                     <AccordionDetails>
                     <Grid

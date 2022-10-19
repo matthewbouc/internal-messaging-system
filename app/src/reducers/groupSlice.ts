@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface GroupState {
     groupId: number,
@@ -12,23 +12,23 @@ export interface GroupObjectState {
 }
 
 const initialState: GroupObjectState = {
-        groups:[{
-            'groupId': 0,
-            'groupName': null,
-            'notifications': null,
-            'userGroupId': null,
-        }]
+    groups: [{
+        'groupId': 0,
+        'groupName': null,
+        'notifications': null,
+        'userGroupId': null,
+    }]
 }
 
 const groupSlice = createSlice({
     name: "group",
     initialState,
     reducers: {
-        updateGroups(state, action: PayloadAction<GroupObjectState>){
+        updateGroups(state, action: PayloadAction<GroupObjectState>) {
             state.groups = action.payload.groups;
         }
     }
 });
 
-export const { updateGroups } = groupSlice.actions;
+export const {updateGroups} = groupSlice.actions;
 export default groupSlice.reducer;

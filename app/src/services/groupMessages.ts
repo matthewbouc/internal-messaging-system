@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
 import {MessageObjectState} from "../reducers/messageSlice";
 
@@ -27,4 +27,4 @@ export const messageApi = createApi({
     })
 });
 
-export const { useGetMessagesQuery, useAddMessageMutation } = messageApi;
+export const {useGetMessagesQuery, useAddMessageMutation} = messageApi;

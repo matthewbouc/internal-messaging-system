@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import axios from "axios";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
@@ -48,11 +48,11 @@ function App() {
     return (
         <ThemeProvider theme={themeConfig}>
             <BrowserRouter>
-                <NavigationBar />
+                <NavigationBar/>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/teamchat" element={<TeamChat />} />
-                    <Route path="/form" element={<ThemeForm />} />
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/teamchat" element={<TeamChat/>}/>
+                    <Route path="/form" element={<ThemeForm/>}/>
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>

@@ -3,8 +3,8 @@ import userSettingsReducer from "./reducers/userSettingsSlice";
 import messagesReducer from "./reducers/messageSlice";
 import groupsReducer from "./reducers/groupSlice";
 
-import { groupApi } from './services/teamChat';
-import { messageApi } from "./services/groupMessages";
+import {groupApi} from './services/teamChat';
+import {messageApi} from "./services/groupMessages";
 
 export const store = configureStore({
     reducer: {

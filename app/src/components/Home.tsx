@@ -4,7 +4,6 @@ import axios from "axios";
 import Box from '@mui/material/Box';
 
 
-
 const Home = () => {
 
     useEffect(() => {
@@ -19,11 +18,8 @@ const Home = () => {
             .catch(function (error) {
                 console.log(error);
             })
-            .then(function () {
-                // always executed
-            });
     }
-    return(
+    return (
         <Box>
             <p>Dashboard</p>
         </Box>

@@ -13,9 +13,9 @@ const Test = (props: PropsWithChildren<TestProps>): JSX.Element => {
                 background: props.color ?? '#fff'
             }}
         >
-            <h1> { props.name }</h1>
+            <h1> {props.name}</h1>
             <div>
-                { props.children }
+                {props.children}
             </div>
         </div>
     )

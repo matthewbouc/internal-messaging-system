@@ -21,6 +21,6 @@ const userSettingSlice = createSlice({
     },
 });
 
-export const { receivedSettings } = userSettingSlice.actions;
+export const {receivedSettings} = userSettingSlice.actions;
 export default userSettingSlice.reducer;
 

@@ -1,13 +1,13 @@
-import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
-import axios, {AxiosResponse} from "axios";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
-import { useAppSelector, useAppDispatch } from "../hooks";
-import { receivedSettings, SettingState } from "../reducers/userSettingsSlice";
+import {useAppDispatch, useAppSelector} from "../hooks";
+import {receivedSettings, SettingState} from "../reducers/userSettingsSlice";
 
 
-const ThemeForm = ():JSX.Element => {
+const ThemeForm = (): JSX.Element => {
 
     const SERVER = "http://localhost:8000/api/userSettings";
 
@@ -22,17 +22,17 @@ const ThemeForm = ():JSX.Element => {
     }, [theme]);
 
     const onFormSubmit = () => {
-        const colors = {"primaryColor":tempPrimary, "secondaryColor":tempSecondary};
+        const colors = {"primaryColor": tempPrimary, "secondaryColor": tempSecondary};
 
         console.log(colors);
         axios.put(SERVER, colors)
             .then((response) => {
                 console.log(response);
             }).then(() => {
-                axios.get<SettingState>("http://localhost:8000/api/userSettings")
+            axios.get<SettingState>("http://localhost:8000/api/userSettings")
                 .then((response) => {
                     dispatch(receivedSettings(response.data));
-            })
+                })
         }).catch((error) => {
             console.log(error);
         });
@@ -42,16 +42,16 @@ const ThemeForm = ():JSX.Element => {
         <Box
             component="form"
             sx={{
-                '& > :not(style)': { m: 1 },
+                '& > :not(style)': {m: 1},
                 maxWidth: 300
             }}
             noValidate
             autoComplete="off"
         >
-            <TextField value={tempPrimary} onChange={(event)=> setTempPrimary(event.target.value)}/>
-            <div style={{height:"100px", width:"100px", backgroundColor:tempPrimary, borderStyle:"solid"}}></div>
-            <TextField value={tempSecondary} onChange={(event) => setTempSecondary(event.target.value)} />
-            <div style={{height:"100px", width:"100px", backgroundColor:tempSecondary, borderStyle:"solid"}}></div>
+            <TextField value={tempPrimary} onChange={(event) => setTempPrimary(event.target.value)}/>
+            <div style={{height: "100px", width: "100px", backgroundColor: tempPrimary, borderStyle: "solid"}}></div>
+            <TextField value={tempSecondary} onChange={(event) => setTempSecondary(event.target.value)}/>
+            <div style={{height: "100px", width: "100px", backgroundColor: tempSecondary, borderStyle: "solid"}}></div>
 
             <Button variant="contained" onClick={onFormSubmit}>
                 In ThemeForm

@@ -64,9 +64,9 @@ const TeamChat = (): JSX.Element => {
                                             <Grid
                                                 sx={{
                                                     width: "calc( 100% - 20px )",
-                                                    margin: 10,
+                                                    margin: 1,
                                                     overflowY: "scroll",
-                                                    height: "calc( 100% - 20px )",
+
                                                     backgroundColor: '#fff',
                                                 }}>
                                                 <GroupMessages groupId={group.groupId}/>

@@ -5,6 +5,7 @@ import {MessageState} from "../reducers/messageSlice";
 import {useGetMessagesQuery} from "../services/groupMessages";
 import Container from "@mui/material/Container";
 import ListItemText from '@mui/material/ListItemText';
+import Typography from "@mui/material/Typography";
 
 
 export interface Props {
@@ -19,30 +20,36 @@ const GroupMessages = (props: Props): JSX.Element => {
     const blueOrGreenMessage = (message: MessageState) => {
         if (message.author === 1) {
             return (
-                <Grid container justifyContent="flex-end">
-                    <Grid item xs={12}>
-                        <ListItemText sx={{align: 'right'}}>Author ID: {message.author}</ListItemText>
+                <Grid container>
+                    {/*<Grid item xs={7}></Grid>*/}
+                    {/*<Grid item xs={5} justifyContent="flex-start">*/}
+                    {/*    <Typography >Author ID: {message.author}</Typography>*/}
+                    {/*</Grid>*/}
+                    <Grid item xs={5}></Grid>
+                    <Grid container item xs={7} justifyContent="flex-end" sx={{backgroundColor: '#d5d5d5'}}>
+                        <Typography >{message.message}</Typography>
                     </Grid>
-                    <Grid item xs={12}>
-                        <ListItemText sx={{align: 'right'}}>{message.message}</ListItemText>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <ListItemText sx={{align: 'right'}}>{message.createdAt}</ListItemText>
+                    <Grid item xs={5}></Grid>
+                    <Grid container item xs={7} justifyContent="flex-end" sx={{backgroundColor: '#d5d5d5'}}>
+                        <Typography variant="caption" >{message.createdAt}</Typography>
                     </Grid>
                 </Grid>
             )
         } else {
             return (
-                <Grid container justifyContent="flex-start">
-                    <Container>
-                        <ListItemText>Author ID: {message.author}</ListItemText>
-                    </Container>
-                    <Container>
-                        <ListItemText>{message.message}</ListItemText>
-                    </Container>
-                    <Container>
-                        <ListItemText sx={{align: 'left'}}>{message.createdAt}</ListItemText>
-                    </Container>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <Typography variant="caption">Author ID: {message.author}</Typography>
+                    </Grid>
+                    <Grid item xs={6}></Grid>
+                    <Grid item xs={7} sx={{backgroundColor: 'lightblue'}}>
+                        <Typography>{message.message}</Typography>
+                    </Grid>
+                    <Grid item xs={5}></Grid>
+                    <Grid item xs={7} sx={{backgroundColor: 'lightblue'}}>
+                        <Typography variant="caption">{message.createdAt}</Typography>
+                    </Grid>
+                    <Grid item xs={5}></Grid>
                 </Grid>
 
             )

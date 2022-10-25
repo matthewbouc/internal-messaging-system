@@ -18,7 +18,7 @@ const GroupMessages = (props: Props): JSX.Element => {
     const {data, isLoading, error} = useGetMessagesQuery(props.groupId);
 
     const blueOrGreenMessage = (message: MessageState) => {
-        if (message.author === 1) {
+        if (message.authorId === 1) {
             return (
                 <Grid container>
                     {/*<Grid item xs={7}></Grid>*/}
@@ -39,7 +39,7 @@ const GroupMessages = (props: Props): JSX.Element => {
             return (
                 <Grid container>
                     <Grid item xs={6}>
-                        <Typography variant="caption">Author ID: {message.author}</Typography>
+                        <Typography variant="caption">{message.authorFirstName} {message.authorLastName}</Typography>
                     </Grid>
                     <Grid item xs={6}></Grid>
                     <Grid item xs={7} sx={{backgroundColor: 'lightblue'}}>

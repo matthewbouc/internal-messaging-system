@@ -2,45 +2,37 @@
 
 namespace App\Service;
 
-use App\Entity\Group;
 use App\Entity\Message;
-use App\Entity\UserGroup;
 use App\Repository\GroupRepository;
 use App\Repository\MessageRepository;
-use App\Repository\UserGroupRepository;
+use App\Repository\MetaRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Monolog\DateTimeImmutable;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Persistence\ManagerRegistry;
 
 
-class GroupMessageService
+
+class GroupMessageService extends MetaMessageService
 {
 
-    private UserGroupRepository $userGroupRepository;
-    private LoggerInterface $logger;
     private MessageRepository $messageRepository;
     private GroupRepository $groupRepository;
     private UserRepository $userRepository;
-    private ManagerRegistry $doctrine;
+    private ManagerRegistry $managerRegistry;
+    private MetaRepository $metaRepository;
 
     function __construct(
-    UserGroupRepository $userGroupRepository,
-    LoggerInterface $logger,
-    MessageRepository $messageRepository,
-    GroupRepository $groupRepository,
-    UserRepository $userRepository,
-    ManagerRegistry $doctrine,
-    )
-    {
-        $this->userGroupRepository = $userGroupRepository;
-        $this->logger = $logger;
+        MessageRepository $messageRepository,
+        GroupRepository $groupRepository,
+        UserRepository $userRepository,
+        ManagerRegistry $managerRegistry,
+        MetaRepository $metaRepository,
+    ){
+        parent::__construct($metaRepository);
         $this->messageRepository = $messageRepository;
         $this->groupRepository = $groupRepository;
         $this->userRepository = $userRepository;
-        $this->doctrine = $doctrine;
+        $this->managerRegistry = $managerRegistry;
     }
 
     function getGroupMessages( $groupId ): array
@@ -48,17 +40,12 @@ class GroupMessageService
         $groupMessages = $this->messageRepository->findBy(['group' => $groupId], ['created_at' => 'DESC'], 5);
         $extractedMessages = [];
         foreach ($groupMessages as $groupMessage) {
-            $extractedMessages[] = [
-                'message' => $groupMessage->getMessage(),
-                'createdAt' => $groupMessage->getCreatedAt(),
-                'status' => $groupMessage->getMessageStatus(),
-                'messageId' => $groupMessage->getId(),
-                'author' => $groupMessage->getUser()->getId(),
-            ];
+            $extractedMessages[] = $this->getMetaMessage($groupMessage);
         }
+        usort($extractedMessages, fn($a, $b) => $a['createdAt'] <=> $b['createdAt']);
         return $extractedMessages;
-    }
 
+    }
 
     function postNewMessage ($receivedMessage): void
     {
@@ -70,14 +57,12 @@ class GroupMessageService
         $newMessage->setMessage($receivedMessage['message']);
         $newMessage->setUser($messageAuthor);
         $newMessage->setMessageStatus('active');
-        $date = new DateTimeImmutable('now');
         $newMessage->setUpdatedBy($messageAuthor);
+        $date = new DateTimeImmutable('now');
         $newMessage->setCreatedAt($date);
         $newMessage->setUpdatedAt($date);
 
-        $this->doctrine->getManager()->persist($newMessage);
-        $this->doctrine->getManager()->flush();
-
+        $this->managerRegistry->getManager()->persist($newMessage);
+        $this->managerRegistry->getManager()->flush();
     }
-
 }

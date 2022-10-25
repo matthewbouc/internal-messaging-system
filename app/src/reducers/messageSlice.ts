@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface MessageState {
-    groupId: number,
-    message: string | null,
-    createdAt: string | null,
-    status: string | null,
-    messageId: number | null,
-    author: number | null,
+    groupId?: number,
+    message?: string,
+    createdAt?: string,
+    status?: string,
+    messageId?: number,
+    authorId?: number,
+    authorFirstName?: string,
+    authorLastName?: string,
 }
 
 export interface MessageObjectState {
@@ -14,14 +16,7 @@ export interface MessageObjectState {
 }
 
 const initialState: MessageObjectState = {
-    messages: [{
-        'groupId': 0,
-        'message': null,
-        'createdAt': null,
-        'status': null,
-        'messageId': null,
-        'author': null,
-    }]
+    messages: []
 }
 
 const messageSlice = createSlice({

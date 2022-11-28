@@ -1,19 +1,25 @@
 framework:
     cache:
-        # Unique name of your app: used to compute stable namespaces for cache keys.
-        #prefix_seed: your_vendor_name/app_name
 
-        # The "app" cache stores to the filesystem by default.
-        # The data in this cache should persist between deploys.
-        # Other options include:
+        #Redis => utilizes the FrameworkBundle to create a Redis Cache Adapter using a default template.
+        #  For Redis, the cache pool (service) is created automatically
+        app: cache.adapter.redis
+        default_redis_provider: "redis://%env(TEAMCHAT_REDIS_HOST)%:%env(TEAMCHAT_REDIS_PORT)%"
 
-        # Redis
-        #app: cache.adapter.redis
-        #default_redis_provider: redis://localhost
 
-        # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
-        #app: cache.adapter.apcu
 
-        # Namespaced pools use the above "app" backend by default
-        #pools:
-            #my.dedicated.cache: null
+
+
+#  Customizing the RedisAdapter.  Create a pool and apply the customization through services.
+#        pools:
+#            cache.my_redis:
+#                adapter: cache.adapter.redis
+#                provider: app.my_custom_redis_provider
+#
+#services:
+#    app.my_custom_redis_provider:
+#        class: \Redis
+#        factory: ['Symfony\Component\Cache\Adapter\RedisAdapter', 'createConnection']
+#        arguments:
+#            - "redis://%env(TEAMCHAT_REDIS_HOST)%:%env(TEAMCHAT_REDIS_PORT)%"
+#            - { retry_interval: 2, timeout: 10 }
